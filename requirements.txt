@@ -1,0 +1,73 @@
+REQUIREMENTS NOTES
+Project: Lost and Found Website for Liftabit
+Version: Basic frontend prototype (HTML, CSS, JavaScript)
+=====================================================
+
+1. PROBLEM TO SOLVE
+Lost and found items are usually reported on notice boards or by word of mouth.
+This makes it hard to match items with their owners. A single online platform
+is needed where people can report, search, and recover items.
+
+
+2. USERS
+- Visitor / Owner : reports a lost item and searches the listings.
+- Finder          : reports an item they found.
+- Liftabit staff  : contacted to verify ownership (planned for a later version).
+
+
+3. FUNCTIONAL REQUIREMENTS
+- Home page that explains the purpose and has quick links to report and search.
+- Report Lost Item form: item name, category, date lost, last known location,
+  description, photo (optional), name and contact details.
+- Report Found Item form: item name, category, date found, where it was found,
+  description, photo (optional), name and contact details.
+- Browse Listings page that shows all reports with a "lost" or "found" label.
+- Search and filter by type (lost/found), category, and keyword.
+- Contact page with office details and a message form.
+- Form validation: required fields must be filled before submitting.
+- Confirmation message after a form is submitted.
+
+
+4. NON-FUNCTIONAL REQUIREMENTS
+- Simple, clean design that is easy to navigate.
+- Responsive layout that works on mobile, tablet, and desktop.
+- Runs in any modern browser with no installation.
+- Fast loading, with no heavy libraries.
+- Consistent colours and fonts across all pages.
+
+
+5. SCOPE OF THIS VERSION
+Included:
+- Five pages: Home, Report Lost, Report Found, Browse Listings, Contact.
+- Form validation.
+- Search and filter on sample data.
+- Responsive design.
+
+Not included yet:
+- Saving reports to a database.
+- User login and registration.
+- Image upload storage.
+- Email or SMS alerts.
+- Admin panel.
+- Live deployment.
+
+
+6. TOOLS AND TECHNOLOGIES
+- HTML, CSS, JavaScript
+- Visual Studio Code
+- Git and GitHub
+- Figma (for layout design, only if used)
+
+
+7. CONSTRAINTS
+- Frontend only, so there is no backend or database.
+- Listings shown are sample data.
+- Limited internship time.
+
+
+8. FUTURE REQUIREMENTS
+- Connect a backend and database to store real reports.
+- Add login for users and an admin dashboard.
+- Add image upload and automatic match suggestions.
+- Add email/SMS notifications.
+- Deploy on a live hosting server with a domain name.

@@ -1,0 +1,633 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Liftabit — Lost &amp; Found</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#1E2A2E;
+    --paper:#F6F4EF;
+    --paper-dim:#EDEAE1;
+    --navy:#1C3438;
+    --teal:#2F5F5A;
+    --amber:#D98E3B;
+    --amber-soft:#F1D9B8;
+    --line: rgba(28,52,56,0.14);
+    --white:#FFFFFF;
+    --radius: 4px;
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0;
+    background:var(--paper);
+    color:var(--ink);
+    font-family:'Inter',sans-serif;
+    -webkit-font-smoothing:antialiased;
+  }
+  h1,h2,h3,.display{
+    font-family:'Fraunces',serif;
+    font-weight:600;
+    letter-spacing:-0.01em;
+    margin:0;
+  }
+  a{color:inherit;text-decoration:none;}
+  button{font-family:inherit;cursor:pointer;}
+  img{max-width:100%;display:block;}
+
+  /* NAV */
+  header.site{
+    position:sticky; top:0; z-index:50;
+    background:var(--paper);
+    border-bottom:1px solid var(--line);
+  }
+  .nav-inner{
+    max-width:1120px; margin:0 auto;
+    display:flex; align-items:center; justify-content:space-between;
+    padding:18px 28px;
+  }
+  .brand{display:flex; align-items:center; gap:10px;}
+  .brand-mark{
+    width:34px;height:34px;border-radius:50%;
+    background:var(--navy);
+    display:flex;align-items:center;justify-content:center;
+    color:var(--amber-soft); font-family:'Fraunces',serif; font-weight:700; font-size:16px;
+  }
+  .brand-name{font-family:'Fraunces',serif; font-weight:600; font-size:19px; letter-spacing:-0.01em;}
+  .brand-sub{font-size:11px; letter-spacing:0.08em; text-transform:uppercase; color:var(--teal); display:block; margin-top:-2px;}
+  nav.links{display:flex; gap:2px; align-items:center;}
+  nav.links button.navlink{
+    background:none;border:none;
+    padding:10px 16px; font-size:14px; font-weight:500;
+    color:var(--ink); opacity:0.65;
+    border-radius:var(--radius);
+    transition:opacity .15s ease, background .15s ease;
+  }
+  nav.links button.navlink:hover{opacity:1; background:var(--paper-dim);}
+  nav.links button.navlink.active{opacity:1; color:var(--navy); font-weight:600;}
+  .nav-cta{
+    background:var(--navy)!important; color:var(--white)!important;
+    padding:10px 18px; border-radius:var(--radius); font-size:13.5px; font-weight:600;
+    opacity:1!important;
+  }
+  .nav-cta:hover{background:var(--teal)!important;}
+
+  section.page{display:none; animation:fadein .35s ease;}
+  section.page.active{display:block;}
+  @keyframes fadein{from{opacity:0; transform:translateY(6px);} to{opacity:1; transform:translateY(0);}}
+
+  .wrap{max-width:1120px; margin:0 auto; padding:0 28px;}
+
+  /* HERO */
+  .hero{
+    padding:72px 0 56px;
+    display:grid; grid-template-columns:1.1fr 0.9fr; gap:56px; align-items:center;
+  }
+  .eyebrow{
+    font-size:12px; font-weight:600; letter-spacing:0.12em; text-transform:uppercase;
+    color:var(--teal); margin-bottom:16px; display:flex; align-items:center; gap:8px;
+  }
+  .eyebrow::before{content:''; width:20px; height:1px; background:var(--amber); display:inline-block;}
+  .hero h1{
+    font-size:52px; line-height:1.05; margin-bottom:22px; color:var(--navy);
+  }
+  .hero h1 em{font-style:italic; color:var(--amber);}
+  .hero p.lede{
+    font-size:17px; line-height:1.6; color:var(--ink); opacity:0.75; max-width:460px; margin-bottom:32px;
+  }
+  .hero-actions{display:flex; gap:12px; flex-wrap:wrap;}
+  .btn{
+    padding:13px 24px; border-radius:var(--radius); font-size:14.5px; font-weight:600;
+    border:1px solid transparent; display:inline-flex; align-items:center; gap:8px;
+    transition:all .15s ease;
+  }
+  .btn-primary{background:var(--navy); color:var(--white);}
+  .btn-primary:hover{background:var(--teal);}
+  .btn-ghost{border-color:var(--line); color:var(--navy); background:transparent;}
+  .btn-ghost:hover{border-color:var(--navy); background:var(--paper-dim);}
+
+  /* search card */
+  .search-card{
+    background:var(--navy); border-radius:8px; padding:32px;
+    position:relative; overflow:hidden;
+  }
+  .search-card::after{
+    content:''; position:absolute; right:-40px; top:-40px; width:160px; height:160px;
+    border-radius:50%; background:radial-gradient(circle, rgba(217,142,59,0.25), transparent 70%);
+  }
+  .search-card h3{color:var(--white); font-size:19px; margin-bottom:6px; position:relative;}
+  .search-card p{color:rgba(255,255,255,0.6); font-size:13.5px; margin:0 0 20px; position:relative;}
+  .search-row{display:flex; gap:8px; margin-bottom:16px; position:relative;}
+  .search-row input{
+    flex:1; padding:12px 14px; border-radius:var(--radius); border:1px solid rgba(255,255,255,0.15);
+    background:rgba(255,255,255,0.08); color:var(--white); font-size:14px; font-family:inherit;
+  }
+  .search-row input::placeholder{color:rgba(255,255,255,0.4);}
+  .search-row button{
+    background:var(--amber); color:var(--navy); border:none; padding:12px 20px; border-radius:var(--radius);
+    font-weight:700; font-size:14px; white-space:nowrap;
+  }
+  .chip-row{display:flex; gap:8px; flex-wrap:wrap; position:relative;}
+  .chip{
+    font-size:12.5px; padding:6px 12px; border-radius:100px; border:1px solid rgba(255,255,255,0.18);
+    color:rgba(255,255,255,0.75); background:rgba(255,255,255,0.04);
+  }
+
+  /* stats strip */
+  .stats{
+    display:grid; grid-template-columns:repeat(4,1fr); border-top:1px solid var(--line); border-bottom:1px solid var(--line);
+    margin:0 0 64px;
+  }
+  .stat{padding:28px 20px; border-right:1px solid var(--line); text-align:center;}
+  .stat:last-child{border-right:none;}
+  .stat .num{font-family:'Fraunces',serif; font-size:32px; color:var(--navy); font-weight:600;}
+  .stat .label{font-size:12.5px; color:var(--ink); opacity:0.6; margin-top:4px;}
+
+  /* how it works */
+  .section-head{margin-bottom:40px; max-width:560px;}
+  .section-head .eyebrow{margin-bottom:12px;}
+  .section-head h2{font-size:32px; color:var(--navy); margin-bottom:12px;}
+  .section-head p{font-size:15.5px; color:var(--ink); opacity:0.7; line-height:1.6;}
+
+  .steps{display:grid; grid-template-columns:repeat(3,1fr); gap:1px; background:var(--line); border:1px solid var(--line); margin-bottom:80px; border-radius:6px; overflow:hidden;}
+  .step{background:var(--paper); padding:32px 28px;}
+  .step .tag{font-family:'Fraunces',serif; font-size:14px; color:var(--amber); font-weight:600; margin-bottom:14px; display:block;}
+  .step h3{font-size:18px; color:var(--navy); margin-bottom:10px;}
+  .step p{font-size:14px; opacity:0.7; line-height:1.6; margin:0;}
+
+  .cta-band{
+    background:var(--teal); border-radius:8px; padding:44px 48px; margin-bottom:80px;
+    display:flex; align-items:center; justify-content:space-between; gap:24px; flex-wrap:wrap;
+  }
+  .cta-band h3{color:var(--white); font-size:24px; margin-bottom:6px;}
+  .cta-band p{color:rgba(255,255,255,0.75); font-size:14.5px; margin:0;}
+  .cta-band .btn-primary{background:var(--amber); color:var(--navy);}
+  .cta-band .btn-primary:hover{background:var(--white);}
+
+  footer{border-top:1px solid var(--line); padding:32px 0; margin-top:40px;}
+  .foot-inner{display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px;}
+  .foot-inner p{font-size:13px; opacity:0.55; margin:0;}
+
+  /* FORM PAGES */
+  .page-head{padding:56px 0 32px; border-bottom:1px solid var(--line); margin-bottom:48px;}
+  .page-head h1{font-size:36px; color:var(--navy);}
+  .page-head p{font-size:15px; opacity:0.7; margin-top:10px; max-width:520px; line-height:1.6;}
+
+  .form-layout{display:grid; grid-template-columns:1fr 340px; gap:48px; padding-bottom:80px;}
+  .field-group{margin-bottom:22px;}
+  .field-group label{display:block; font-size:13px; font-weight:600; color:var(--navy); margin-bottom:8px;}
+  .field-row{display:grid; grid-template-columns:1fr 1fr; gap:16px;}
+  input[type=text], input[type=email], input[type=tel], input[type=date], select, textarea{
+    width:100%; padding:12px 14px; border-radius:var(--radius); border:1px solid var(--line);
+    background:var(--white); font-family:inherit; font-size:14px; color:var(--ink);
+  }
+  textarea{resize:vertical; min-height:100px;}
+  input:focus, select:focus, textarea:focus{outline:2px solid var(--amber); outline-offset:1px; border-color:var(--amber);}
+  .upload-box{
+    border:1.5px dashed var(--line); border-radius:var(--radius); padding:28px; text-align:center;
+    color:var(--ink); opacity:0.6; font-size:13.5px; background:var(--paper-dim);
+  }
+  .side-note{background:var(--paper-dim); border-radius:8px; padding:26px; height:fit-content;}
+  .side-note h4{font-size:15px; color:var(--navy); margin:0 0 12px; font-family:'Fraunces',serif;}
+  .side-note ul{margin:0; padding-left:18px; font-size:13.5px; line-height:1.8; opacity:0.75;}
+  .submit-row{display:flex; align-items:center; gap:16px; margin-top:8px;}
+  .form-msg{font-size:13.5px; color:var(--teal); font-weight:600; display:none;}
+  .form-msg.show{display:inline-block;}
+
+  /* LISTINGS */
+  .filter-bar{
+    display:flex; gap:12px; margin-bottom:32px; flex-wrap:wrap; align-items:center;
+    padding:16px; background:var(--paper-dim); border-radius:8px;
+  }
+  .filter-bar select, .filter-bar input{max-width:200px; background:var(--white);}
+  .listing-grid{display:grid; grid-template-columns:repeat(3,1fr); gap:20px; padding-bottom:80px;}
+  .card{
+    border:1px solid var(--line); border-radius:8px; overflow:hidden; background:var(--white);
+    transition:transform .15s ease, box-shadow .15s ease;
+  }
+  .card:hover{transform:translateY(-3px); box-shadow:0 10px 24px rgba(28,52,56,0.08);}
+  .card-top{padding:20px 20px 0;}
+  .badge{
+    font-size:11px; font-weight:700; letter-spacing:0.04em; text-transform:uppercase;
+    padding:4px 10px; border-radius:100px; display:inline-block; margin-bottom:12px;
+  }
+  .badge.lost{background:#F6DCC9; color:#9A4E1C;}
+  .badge.found{background:#D8E8E1; color:#1F5C46;}
+  .card h4{font-size:16.5px; color:var(--navy); margin:0 0 6px; font-family:'Fraunces',serif; font-weight:600;}
+  .card .meta{font-size:12.5px; opacity:0.55; margin-bottom:14px;}
+  .card p.desc{font-size:13.5px; opacity:0.7; line-height:1.55; margin:0 0 16px;}
+  .card-bottom{padding:14px 20px; border-top:1px solid var(--line); display:flex; justify-content:space-between; align-items:center;}
+  .card-bottom .loc{font-size:12.5px; opacity:0.6;}
+  .card-bottom button{
+    font-size:12.5px; font-weight:600; color:var(--navy); background:none; border:1px solid var(--line); padding:6px 14px; border-radius:100px;
+  }
+  .card-bottom button:hover{background:var(--navy); color:var(--white); border-color:var(--navy);}
+
+  /* CONTACT */
+  .contact-layout{display:grid; grid-template-columns:1fr 1fr; gap:56px; padding-bottom:80px;}
+  .info-block{margin-bottom:24px;}
+  .info-block .label{font-size:12px; text-transform:uppercase; letter-spacing:0.08em; color:var(--teal); font-weight:600; margin-bottom:6px;}
+  .info-block .val{font-size:16px; color:var(--navy);}
+
+  @media (max-width: 860px){
+    .hero{grid-template-columns:1fr; padding-top:40px;}
+    .hero h1{font-size:38px;}
+    .stats{grid-template-columns:repeat(2,1fr);}
+    .stat:nth-child(2){border-right:none;}
+    .steps{grid-template-columns:1fr;}
+    .form-layout, .contact-layout{grid-template-columns:1fr;}
+    .listing-grid{grid-template-columns:1fr;}
+    nav.links{display:none;}
+    .cta-band{flex-direction:column; align-items:flex-start;}
+  }
+</style>
+</head>
+<body>
+
+<header class="site">
+  <div class="nav-inner">
+    <div class="brand">
+      <div class="brand-mark">L</div>
+      <div>
+        <div class="brand-name">Liftabit</div>
+        <span class="brand-sub">Lost &amp; Found</span>
+      </div>
+    </div>
+    <nav class="links">
+      <button class="navlink active" data-page="home">Home</button>
+      <button class="navlink" data-page="lost">Report Lost</button>
+      <button class="navlink" data-page="found">Report Found</button>
+      <button class="navlink" data-page="browse">Browse Listings</button>
+      <button class="navlink" data-page="contact">Contact</button>
+      <button class="navlink nav-cta" data-page="browse">Search now</button>
+    </nav>
+  </div>
+</header>
+
+<main class="wrap">
+
+  <!-- HOME -->
+  <section class="page active" id="home">
+    <div class="hero">
+      <div>
+        <div class="eyebrow">Liftabit Community Platform</div>
+        <h1>Lost something? <br><em>Someone may<br>have found it.</em></h1>
+        <p class="lede">A simple, centralised way for the Liftabit community to report lost belongings, list found items, and reconnect people with what they've misplaced.</p>
+        <div class="hero-actions">
+          <button class="btn btn-primary" data-page="lost">Report a lost item</button>
+          <button class="btn btn-ghost" data-page="found">I found something</button>
+        </div>
+      </div>
+      <div class="search-card">
+        <h3>Search current listings</h3>
+        <p>Check what's already been reported before filing a new report.</p>
+        <div class="search-row">
+          <input type="text" placeholder="e.g. blue backpack, keys, phone…">
+          <button data-page="browse">Search</button>
+        </div>
+        <div class="chip-row">
+          <span class="chip">Electronics</span>
+          <span class="chip">Bags &amp; Wallets</span>
+          <span class="chip">ID Cards</span>
+          <span class="chip">Accessories</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="stats">
+      <div class="stat"><div class="num">128</div><div class="label">Items reported</div></div>
+      <div class="stat"><div class="num">74</div><div class="label">Successfully returned</div></div>
+      <div class="stat"><div class="num">48h</div><div class="label">Avg. time to match</div></div>
+      <div class="stat"><div class="num">5</div><div class="label">Categories tracked</div></div>
+    </div>
+
+    <div class="section-head">
+      <div class="eyebrow">How it works</div>
+      <h2>Three steps to a returned item</h2>
+      <p>No accounts, no queues at a front desk — just a clear report and a searchable list, kept up to date by the Liftabit team.</p>
+    </div>
+    <div class="steps">
+      <div class="step">
+        <span class="tag">01</span>
+        <h3>File a report</h3>
+        <p>Describe what you lost or found — category, date, location, and any distinguishing details.</p>
+      </div>
+      <div class="step">
+        <span class="tag">02</span>
+        <h3>It goes live</h3>
+        <p>Your report appears in the searchable listings, visible to anyone browsing the platform.</p>
+      </div>
+      <div class="step">
+        <span class="tag">03</span>
+        <h3>Get connected</h3>
+        <p>A match reaches out through the contact details provided, and the item finds its way home.</p>
+      </div>
+    </div>
+
+    <div class="cta-band">
+      <div>
+        <h3>Found something that isn't yours?</h3>
+        <p>Two minutes is all it takes to help it find its owner.</p>
+      </div>
+      <button class="btn btn-primary" data-page="found">Report found item</button>
+    </div>
+  </section>
+
+  <!-- REPORT LOST -->
+  <section class="page" id="lost">
+    <div class="page-head">
+      <h1>Report a lost item</h1>
+      <p>Share as much detail as you can — clear descriptions make it far easier to spot a match in the listings.</p>
+    </div>
+    <div class="form-layout">
+      <form onsubmit="return handleSubmit(event,'lost')">
+        <div class="field-row">
+          <div class="field-group">
+            <label>Item name</label>
+            <input type="text" placeholder="e.g. Black leather wallet" required>
+          </div>
+          <div class="field-group">
+            <label>Category</label>
+            <select required>
+              <option value="">Select category</option>
+              <option>Electronics</option>
+              <option>Bags &amp; Wallets</option>
+              <option>ID Cards &amp; Documents</option>
+              <option>Accessories</option>
+              <option>Other</option>
+            </select>
+          </div>
+        </div>
+        <div class="field-row">
+          <div class="field-group">
+            <label>Date lost</label>
+            <input type="date" required>
+          </div>
+          <div class="field-group">
+            <label>Last known location</label>
+            <input type="text" placeholder="e.g. Main hall, 2nd floor" required>
+          </div>
+        </div>
+        <div class="field-group">
+          <label>Description</label>
+          <textarea placeholder="Colour, brand, any marks or contents that help identify it…" required></textarea>
+        </div>
+        <div class="field-group">
+          <label>Photo (optional)</label>
+          <div class="upload-box">Drag a photo here, or click to upload</div>
+        </div>
+        <div class="field-row">
+          <div class="field-group">
+            <label>Your name</label>
+            <input type="text" required>
+          </div>
+          <div class="field-group">
+            <label>Contact email or phone</label>
+            <input type="text" required>
+          </div>
+        </div>
+        <div class="submit-row">
+          <button type="submit" class="btn btn-primary">Submit report</button>
+          <span class="form-msg" id="msg-lost">✓ Report submitted — we'll notify you of any matches.</span>
+        </div>
+      </form>
+      <aside class="side-note">
+        <h4>Tips for a faster match</h4>
+        <ul>
+          <li>Be specific — "navy blue backpack with a keychain" beats "a bag"</li>
+          <li>Include the exact area, not just the building</li>
+          <li>Add a photo of a similar item if you have one</li>
+          <li>Check Browse Listings first — it may already be found</li>
+        </ul>
+      </aside>
+    </div>
+  </section>
+
+  <!-- REPORT FOUND -->
+  <section class="page" id="found">
+    <div class="page-head">
+      <h1>Report a found item</h1>
+      <p>Help reunite this item with its owner — a few details are all that's needed to list it.</p>
+    </div>
+    <div class="form-layout">
+      <form onsubmit="return handleSubmit(event,'found')">
+        <div class="field-row">
+          <div class="field-group">
+            <label>Item name</label>
+            <input type="text" placeholder="e.g. Silver wristwatch" required>
+          </div>
+          <div class="field-group">
+            <label>Category</label>
+            <select required>
+              <option value="">Select category</option>
+              <option>Electronics</option>
+              <option>Bags &amp; Wallets</option>
+              <option>ID Cards &amp; Documents</option>
+              <option>Accessories</option>
+              <option>Other</option>
+            </select>
+          </div>
+        </div>
+        <div class="field-row">
+          <div class="field-group">
+            <label>Date found</label>
+            <input type="date" required>
+          </div>
+          <div class="field-group">
+            <label>Where you found it</label>
+            <input type="text" placeholder="e.g. Cafeteria, near counter" required>
+          </div>
+        </div>
+        <div class="field-group">
+          <label>Description</label>
+          <textarea placeholder="Colour, brand, condition, any identifying details…" required></textarea>
+        </div>
+        <div class="field-group">
+          <label>Photo (optional)</label>
+          <div class="upload-box">Drag a photo here, or click to upload</div>
+        </div>
+        <div class="field-row">
+          <div class="field-group">
+            <label>Your name</label>
+            <input type="text" required>
+          </div>
+          <div class="field-group">
+            <label>Contact email or phone</label>
+            <input type="text" required>
+          </div>
+        </div>
+        <div class="submit-row">
+          <button type="submit" class="btn btn-primary">Submit report</button>
+          <span class="form-msg" id="msg-found">✓ Thanks — your report is now listed for others to search.</span>
+        </div>
+      </form>
+      <aside class="side-note">
+        <h4>Before you hand it in</h4>
+        <ul>
+          <li>Keep the item somewhere safe until claimed</li>
+          <li>Avoid sharing sensitive contents publicly (cards, IDs)</li>
+          <li>Liftabit staff may reach out to verify ownership</li>
+          <li>Unclaimed items are held for 30 days</li>
+        </ul>
+      </aside>
+    </div>
+  </section>
+
+  <!-- BROWSE LISTINGS -->
+  <section class="page" id="browse">
+    <div class="page-head">
+      <h1>Browse listings</h1>
+      <p>All lost and found reports currently on record. Use the filters to narrow your search.</p>
+    </div>
+    <div class="filter-bar">
+      <select id="filterType">
+        <option value="all">All listings</option>
+        <option value="lost">Lost only</option>
+        <option value="found">Found only</option>
+      </select>
+      <select id="filterCategory">
+        <option value="all">All categories</option>
+        <option>Electronics</option>
+        <option>Bags &amp; Wallets</option>
+        <option>ID Cards &amp; Documents</option>
+        <option>Accessories</option>
+      </select>
+      <input type="text" id="filterSearch" placeholder="Search keyword…">
+    </div>
+    <div class="listing-grid" id="listingGrid"></div>
+  </section>
+
+  <!-- CONTACT -->
+  <section class="page" id="contact">
+    <div class="page-head">
+      <h1>Contact us</h1>
+      <p>Questions about a listing, or need help verifying a claim? Reach the Liftabit team directly.</p>
+    </div>
+    <div class="contact-layout">
+      <div>
+        <div class="info-block">
+          <div class="label">Email</div>
+          <div class="val">lostandfound@liftabit.org</div>
+        </div>
+        <div class="info-block">
+          <div class="label">Phone</div>
+          <div class="val">+91 98765 43210</div>
+        </div>
+        <div class="info-block">
+          <div class="label">Office hours</div>
+          <div class="val">Mon–Fri, 9:00 AM – 5:00 PM</div>
+        </div>
+        <div class="info-block">
+          <div class="label">Location</div>
+          <div class="val">Liftabit Community Office, Main Building</div>
+        </div>
+      </div>
+      <form onsubmit="return handleSubmit(event,'contact')">
+        <div class="field-group">
+          <label>Name</label>
+          <input type="text" required>
+        </div>
+        <div class="field-group">
+          <label>Email</label>
+          <input type="email" required>
+        </div>
+        <div class="field-group">
+          <label>Message</label>
+          <textarea placeholder="How can we help?" required></textarea>
+        </div>
+        <div class="submit-row">
+          <button type="submit" class="btn btn-primary">Send message</button>
+          <span class="form-msg" id="msg-contact">✓ Message sent — we'll get back to you shortly.</span>
+        </div>
+      </form>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <div class="wrap foot-inner">
+    <p>© 2026 Liftabit — Lost &amp; Found Platform</p>
+    <p>Built to help the community reconnect with what matters.</p>
+  </div>
+</footer>
+
+<script>
+  const listings = [
+    {type:'lost', title:'Blue Backpack', cat:'Bags & Wallets', date:'12 Aug', loc:'Main Hall', desc:'Navy blue backpack with a laptop compartment and a small keychain attached.'},
+    {type:'found', title:'Silver Wristwatch', cat:'Accessories', date:'15 Aug', loc:'Cafeteria', desc:'Found near the counter, minor scratch on the strap, no engraving.'},
+    {type:'lost', title:'Student ID Card', cat:'ID Cards & Documents', date:'18 Aug', loc:'Library entrance', desc:'ID card in a clear plastic sleeve, name partially visible.'},
+    {type:'found', title:'Wireless Earbuds', cat:'Electronics', date:'19 Aug', loc:'Auditorium row 6', desc:'White charging case, one earbud missing, case has a small dent.'},
+    {type:'lost', title:'Brown Leather Wallet', cat:'Bags & Wallets', date:'20 Aug', loc:'Parking area', desc:'Contains a few cards and a passport-size photo, no cash.'},
+    {type:'found', title:'Umbrella', cat:'Accessories', date:'21 Aug', loc:'Reception desk', desc:'Black foldable umbrella, slightly worn, left near the front desk.'},
+    {type:'lost', title:'Prescription Glasses', cat:'Accessories', date:'22 Aug', loc:'Meeting Room 2', desc:'Black rectangular frames in a maroon hard case.'},
+    {type:'found', title:'USB Flash Drive', cat:'Electronics', date:'23 Aug', loc:'Computer Lab', desc:'16GB drive with a red casing, unlabeled, found plugged into a shared PC.'},
+    {type:'lost', title:'Set of Keys', cat:'Accessories', date:'24 Aug', loc:'Gate 2', desc:'Three keys on a red carabiner clip with a small bell charm.'}
+  ];
+
+  function renderListings(){
+    const grid = document.getElementById('listingGrid');
+    const type = document.getElementById('filterType').value;
+    const cat = document.getElementById('filterCategory').value;
+    const kw = document.getElementById('filterSearch').value.toLowerCase();
+
+    const filtered = listings.filter(item=>{
+      if(type!=='all' && item.type!==type) return false;
+      if(cat!=='all' && item.cat!==cat) return false;
+      if(kw && !(item.title.toLowerCase().includes(kw) || item.desc.toLowerCase().includes(kw))) return false;
+      return true;
+    });
+
+    grid.innerHTML = filtered.map(item=>`
+      <div class="card">
+        <div class="card-top">
+          <span class="badge ${item.type}">${item.type}</span>
+          <h4>${item.title}</h4>
+          <div class="meta">${item.cat} · ${item.date}</div>
+          <p class="desc">${item.desc}</p>
+        </div>
+        <div class="card-bottom">
+          <span class="loc">📍 ${item.loc}</span>
+          <button onclick="goPage('contact')">Contact</button>
+        </div>
+      </div>
+    `).join('') || '<p style="opacity:0.6;font-size:14px;">No listings match your filters.</p>';
+  }
+
+  document.getElementById('filterType').addEventListener('change', renderListings);
+  document.getElementById('filterCategory').addEventListener('change', renderListings);
+  document.getElementById('filterSearch').addEventListener('input', renderListings);
+
+  function goPage(id){
+    document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+    document.getElementById(id).classList.add('active');
+    document.querySelectorAll('.navlink').forEach(b=>b.classList.remove('active'));
+    document.querySelectorAll('.navlink[data-page="'+id+'"]').forEach(b=>{
+      if(!b.classList.contains('nav-cta')) b.classList.add('active');
+    });
+    window.scrollTo({top:0, behavior:'smooth'});
+    if(id==='browse') renderListings();
+  }
+
+  document.querySelectorAll('[data-page]').forEach(el=>{
+    el.addEventListener('click', ()=> goPage(el.getAttribute('data-page')));
+  });
+
+  function handleSubmit(e, type){
+    e.preventDefault();
+    const msg = document.getElementById('msg-'+type);
+    msg.classList.add('show');
+    e.target.reset();
+    setTimeout(()=> msg.classList.remove('show'), 4000);
+    return false;
+  }
+
+  renderListings();
+</script>
+
+</body>
+</html>
